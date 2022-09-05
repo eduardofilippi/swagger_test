@@ -1,0 +1,18 @@
+agregar tags a items, string[] 
+
+deshabilitar editar el campo encrypted del item
+
+
+agregar ttl al item (valor defecto 7 dias) el ttl debe ser el timestamp
+
+en el put de users puedo pasar el array de roles y array de access groups (el edit seria en un solo paso)
+
+mandar los aditional values en el root del json y validar que el valor del key no sea ninguno de los que ya estan en el body
+
+get /user/profile trae listado de roles
+
+
+
+get/items le pasas por query param el nombre de cualquier atributo, excepto conditions que es separado por comas el array
+
+armar la busqueda avanzada colocandole todos los campos posibles y haciendo el request contra la api de get/items con query params
