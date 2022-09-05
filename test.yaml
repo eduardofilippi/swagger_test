@@ -1,18 +1,169 @@
-agregar tags a items, string[] 
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based coping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
 
-deshabilitar editar el campo encrypted del item
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: test
+  description: |
+    This proxy wil connect PG with Tigo Money to process payments with this instrument.
+  contact:
+    name: Jaqueline Probst
+    email: jaqueline.probst@edge.com.py
+    url: https://edge.com.py
+  license:
+    name: MIT
+    url: 'http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT'
+host:
+  test.com
+basePath:
+  base.com
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+#                        /$$     /$$
+#                       | $$    | $$
+#   /$$$$$$   /$$$$$$  /$$$$$$  | $$$$$$$   /$$$$$$$
+#  /$$__  $$ |____  $$|_  $$_/  | $$__  $$ /$$_____/
+# | $$  \ $$  /$$$$$$$  | $$    | $$  \ $$|  $$$$$$
+# | $$  | $$ /$$__  $$  | $$ /$$| $$  | $$ \____  $$
+# | $$$$$$$/|  $$$$$$$  |  $$$$/| $$  | $$ /$$$$$$$/
+# | $$____/  \_______/   \___/  |__/  |__/|_______/
+# | $$
+# | $$
+# |__/
 
+paths:
+  /pay:
+    post:
+      description: |
+        Process a payment with Tigo Money between a customer and a merchant.
+      parameters:
+        - $ref: '#/parameters/authorization'
+        - $ref: '#/definitions/bodyPayRequest'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/bodyPayResponse'
+            
+  /reverse:
+    post:
+      description: |
+        Process the reverve of a payment with Tigo Money between a customer and a merchant.
+      parameters:
+        - $ref: '#/parameters/authorization'
+        - $ref: '#/definitions/bodyReverseRequest'
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/bodyReverseResponse'
+                  
+  #  /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$   /$$$$$$$
+# /$$__  $$ |____  $$ /$$__  $$|____  $$| $$_  $$_  $$ /$$__  $$|_  $$_/   /$$__  $$ /$$__  $$ /$$_____/
+#| $$  \ $$  /$$$$$$$| $$  \__/ /$$$$$$$| $$ \ $$ \ $$| $$$$$$$$  | $$    | $$$$$$$$| $$  \__/|  $$$$$$ 
+#| $$  | $$ /$$__  $$| $$      /$$__  $$| $$ | $$ | $$| $$_____/  | $$ /$$| $$_____/| $$       \____  $$
+#| $$$$$$$/|  $$$$$$$| $$     |  $$$$$$$| $$ | $$ | $$|  $$$$$$$  |  $$$$/|  $$$$$$$| $$       /$$$$$$$/
+#| $$____/  \_______/|__/      \_______/|__/ |__/ |__/ \_______/   \___/   \_______/|__/      |_______/ 
+#| $$                                                                                                   
+#| $$                                                                                                   
+#|__/
 
-agregar ttl al item (valor defecto 7 dias) el ttl debe ser el timestamp
+parameters:
+  #
+  #Headers
+  #
+  authorization:
+    name: Authorization
+    in: header
+    type: string
+    required: true
 
-en el put de users puedo pasar el array de roles y array de access groups (el edit seria en un solo paso)
+#        /$$            /$$$$$$  /$$           /$$   /$$     /$$
+#       | $$           /$$__  $$|__/          |__/  | $$    |__/
+#   /$$$$$$$  /$$$$$$ | $$  \__/ /$$ /$$$$$$$  /$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$   /$$$$$$$
+#  /$$__  $$ /$$__  $$| $$$$    | $$| $$__  $$| $$|_  $$_/  | $$ /$$__  $$| $$__  $$ /$$_____/
+# | $$  | $$| $$$$$$$$| $$_/    | $$| $$  \ $$| $$  | $$    | $$| $$  \ $$| $$  \ $$|  $$$$$$
+# | $$  | $$| $$_____/| $$      | $$| $$  | $$| $$  | $$ /$$| $$| $$  | $$| $$  | $$ \____  $$
+# |  $$$$$$$|  $$$$$$$| $$      | $$| $$  | $$| $$  |  $$$$/| $$|  $$$$$$/| $$  | $$ /$$$$$$$/
+#  \_______/ \_______/|__/      |__/|__/  |__/|__/   \___/  |__/ \______/ |__/  |__/|_______/
 
-mandar los aditional values en el root del json y validar que el valor del key no sea ninguno de los que ya estan en el body
-
-get /user/profile trae listado de roles
-
-
-
-get/items le pasas por query param el nombre de cualquier atributo, excepto conditions que es separado por comas el array
-
-armar la busqueda avanzada colocandole todos los campos posibles y haciendo el request contra la api de get/items con query params
+definitions:
+  bodyPayRequest:
+    properties:
+      msisdn:
+        type: string
+        example: "88888883"
+      password:
+        type: string
+        example: "1234"
+      grantType:
+        type: string
+        example: "authorization_code"
+      amount:
+        type: number
+        example: 23.45
+      currencyCode:
+        type: string
+        example: "BOB"
+      merchant:
+        type: string
+        example: "88888888"
+      transactionId:
+        type: string
+        example: "99999990001"
+      paymentDate:
+        type: string
+        example: "1985-04-12T23:20:50.52Z"
+  
+  bodyPayResponse:
+    properties:
+      transactionReference:
+        type: string
+        example: "2000061656"
+      paymentDate:
+        type: string
+        example: "1985-04-12T23:20:50.52Z"
+      transactionStatus:
+        type: string
+        example: "Ok"
+      amount:
+        type: number
+        example: 32
+        
+  bodyReverseRequest:
+    properties:
+      transactionReference:
+        type: string
+        example: "2000060890"
+      merchant:
+        type: string
+        example: "88888888"
+      merchantPin:
+        type: string
+        example: "1234"
+      reverseDate:
+        type: string
+        example: "1985-04-12T23:20:50.52Z"
+  
+  bodyReverseResponse:
+    properties:
+      transactionReference:
+        type: string
+        example: "2000060890"
+      requestDate:
+        type: string
+        example: "1985-04-12T23:20:50.52Z"
+      transactionStatus:
+        type: string
+        example: "Ok"
+      reverseDate:
+        type: string
+        example: "1985-04-12T23:20:50.52Z"
